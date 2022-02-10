@@ -1,0 +1,80 @@
+* {
+  box-sizing: border-box;
+}
+
+h1 {
+  display: inline-block;
+  margin: 12px 16px 12px 10px;
+  user-select: none;
+}
+
+.playback {
+  margin: 0 20px;
+  display: inline-block;
+}
+
+.unselectable {
+  -webkit-user-select: none;  /* Chrome all / Safari all */
+  -moz-user-select: none;     /* Firefox all */
+  -ms-user-select: none;      /* IE 10+ */
+  user-select: none;          /* Likely future */
+}
+
+.player {
+  display: flex;
+  height: 80vh;
+  overflow: scroll;
+  background-color: lightgray;
+}
+
+.keyboard {
+  position: sticky;
+  align-self: flex-start;
+  left: 0;
+  z-index: 1;
+}
+
+.keyboardKey {
+  padding: 0 5px;
+  background-color: whitesmoke;
+  color: #111;
+  border: 1px solid #111;
+  border-radius: 5px;
+  height: 18px;
+  text-align: right;
+  font-size: 16px;
+  width: 110px;
+}
+
+.keyboardKey.black {
+  background-color: #111;
+  border: 1px solid gray;
+  color: whitesmoke;
+}
+
+.keyboardKey.pressed {
+  background-color: lightskyblue;
+}
+
+.gridRow {
+  color: #111;
+  border-top: 1px solid #111;
+  height: 18px;
+  font-size: 16px;
+  width: 10000px;
+  position: relative;
+  outline: none;
+}
+
+.note {
+  display: inline;
+  position: absolute;
+  background-color: #4d8afc;
+  color: whitesmoke;
+  border-radius: 4px;
+  height: 17px;
+}
+
+.selectedNote {
+  border: 2px solid whitesmoke;
+}
