@@ -1,8 +1,10 @@
 const mysql = require('mysql2');
+const PASSWORD = require('./config').password;
 
 const connection = mysql.createConnection({
   host: 'localhost',
   user: 'root',
+  password: PASSWORD,
   database: 'sequencer',
 });
 
