@@ -4,6 +4,7 @@ import PlayerGrid from './PlayerGrid.jsx';
 import Playback from './Playback.jsx';
 import midi from '../lib/midi.js';
 import axios from 'axios';
+import { SERVER_ADDR } from '../config.js';
 
 const CHANNEL = 0;
 
@@ -60,7 +61,7 @@ class App extends React.Component {
   }
 
   loadSid(sidToLoad) {
-    axios.get(`/api/${sidToLoad}`)
+    axios.get(`${SERVER_ADDR}/api/${sidToLoad}`)
       .then(({ data }) => {
         const notes = JSON.parse(data.seq);
         this.setState({ notes });
@@ -101,7 +102,7 @@ class App extends React.Component {
       author,
       title,
     };
-    axios.post('/create', postData)
+    axios.post(`${SERVER_ADDR}/create`, postData)
       .then(({ data }) => {
         console.log(`Sequence saved with ID ${data}`);
       });
@@ -186,11 +187,11 @@ class App extends React.Component {
         <>
           <div>
             <h1 onClick={() => { // FIX ME
-              location.href = '/';
+              location.href = `${SERVER_ADDR}` || '/';
             }}>Simple Sequencer</h1>
             <button onClick={midi.panicAll}>MIDI Panic</button>
             <button onClick={() => { // FIX ME
-              location.href = '/browse';
+              location.href = `${SERVER_ADDR}/browse`;
             }}>Browse</button>
             <button onClick={this.exportSequence}>Export</button>
             <Playback
