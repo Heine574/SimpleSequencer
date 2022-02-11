@@ -6,7 +6,7 @@ A simple online tool for creating music sequences.
 
 ## Getting Started
 
-The sequencer itself is fully web-based and requires no setup, simply click over to [hmi.dynu.net/simplesequencer](http://hmi.dynu.net/simplesequencer) and start placing notes.
+The sequencer itself is fully web-based and requires no setup, simply click over to [hmi.dynu.net/simplesequencer](https://hmi.dynu.net/simplesequencer) and start placing notes.
 
 ### Midi Playback
 
