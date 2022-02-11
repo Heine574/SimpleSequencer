@@ -2,6 +2,8 @@ const express = require('express');
 const app = express();
 const port = 3003;
 
+const SERVER_ADDR = require('../client/src/config').SERVER_ADDR; // FIX ME
+
 const bodyParser = require('body-parser');
 app.use(bodyParser.json());
 
@@ -27,7 +29,7 @@ app.get('/browse', (req, res) => {
       let returnDoc = `
         <!DOCTYPE html>
         <body>
-        <a href="/">Back</a>
+        <a href="${SERVER_ADDR || '/'}">Back</a>
         <table>
           <tr>
             <th>
@@ -50,7 +52,7 @@ app.get('/browse', (req, res) => {
             ${entry.author}
           </td>
           <td>
-            <a href="/?sid=${entry.id}">
+            <a href="${SERVER_ADDR || '/'}?sid=${entry.id}">
               ${entry.title}
             </a>
           </td>
