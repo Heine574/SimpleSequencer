@@ -2,7 +2,7 @@ const express = require('express');
 const app = express();
 const port = 3003;
 
-const SERVER_ADDR = require('../client/src/config').SERVER_ADDR; // FIX ME
+const SERVER_ADDR = require('./config').SERVER_ADDR; // FIX ME
 
 const bodyParser = require('body-parser');
 app.use(bodyParser.json());
