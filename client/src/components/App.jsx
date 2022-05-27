@@ -72,7 +72,7 @@ class App extends React.Component {
   }
 
   getTickFromCoord(coord) {
-    if (!coord) {
+    if (coord === null) {
       return [null, null, null];
     }
     const { ticksPerBeat, pxPerBeat, resolution } = this.state;
@@ -122,6 +122,7 @@ class App extends React.Component {
   removeNote(note, keyname, coord) {
     const { channel, notes } = this.state;
     const [ beat, roundedCoord, tick ] = this.getTickFromCoord(coord);
+    console.log(notes, channel, tick);
     if (notes[channel][tick][note]) {
       delete notes[channel][tick][note];
     }
