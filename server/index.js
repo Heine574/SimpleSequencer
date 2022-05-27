@@ -1,6 +1,7 @@
 const express = require('express');
 const app = express();
 const port = 3003;
+const ADDR_PREFIX = '/simplesequencer';
 
 const SERVER_ADDR = require('./config').SERVER_ADDR; // FIX ME
 
@@ -10,9 +11,9 @@ app.use(bodyParser.json());
 const db = require('./database');
 
 const path = require('path');
-app.use('/', express.static(path.join(__dirname, '..', 'client', 'dist')));
+app.use(`${ADDR_PREFIX}/`, express.static(path.join(__dirname, '..', 'client', 'dist')));
 
-app.get('/api/:id', (req, res) => {
+app.get(`${ADDR_PREFIX}/api/:id`, (req, res) => {
   db.readSequence(req.params.id)
     .then((result) => {
       res.status(200).json(result);
@@ -23,7 +24,7 @@ app.get('/api/:id', (req, res) => {
     });
 });
 
-app.get('/browse', (req, res) => {
+app.get(`${ADDR_PREFIX}/browse`, (req, res) => {
   db.getAll()
     .then((results) => {
       let returnDoc = `
@@ -70,7 +71,7 @@ app.get('/browse', (req, res) => {
     });
 });
 
-app.post('/create', (req, res) => {
+app.post(`${ADDR_PREFIX}/create`, (req, res) => {
   const { seq, author, title } = req.body;
   if ( seq && author && title ) {
     db.writeSequence(seq, author, title)
