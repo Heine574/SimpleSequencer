@@ -15,7 +15,7 @@ class GridRow extends React.Component {
 
   handleClick(e) {
     const { note, keyname, placeNote, removeNote, toggleSelection, setSelection, selected } = this.props;
-    console.log(e.nativeEvent.offsetX, parseInt(e.nativeEvent.target.style.left));
+    console.log('click', e.nativeEvent.offsetX, parseInt(e.nativeEvent.target.style.left));
     if (e.button === 0) {
       if (e.nativeEvent.target.classList[0] === 'gridRow') {
         // setSelection();

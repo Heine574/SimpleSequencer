@@ -122,7 +122,6 @@ class App extends React.Component {
   removeNote(note, keyname, coord) {
     const { channel, notes } = this.state;
     const [ beat, roundedCoord, tick ] = this.getTickFromCoord(coord);
-    console.log(notes, channel, tick);
     if (notes[channel][tick][note]) {
       delete notes[channel][tick][note];
     }
@@ -135,7 +134,7 @@ class App extends React.Component {
     if (selected[`${CHANNEL}-${tick}-${note}`]) {
       delete selected[`${CHANNEL}-${tick}-${note}`];
     } else {
-      selected[`${CHANNEL}-${tick}-${note}`] = [CHANNEL, tick, note];
+      selected[`${CHANNEL}-${tick}-${note}`] = [CHANNEL, tick, note, tick, note];
     }
     this.setState({ selected });
   }
@@ -144,7 +143,7 @@ class App extends React.Component {
     let { selected } = this.state;
     const [ beat, roundedCoord, tick ] = this.getTickFromCoord(coord);
     selected = {};
-    if (note !== null && coord !== null) selected[`${CHANNEL}-${tick}-${note}`] = [CHANNEL, tick, note];
+    if (note !== null && coord !== null) selected[`${CHANNEL}-${tick}-${note}`] = [CHANNEL, tick, note, tick, note];
     this.setState({ selected });
   }
 

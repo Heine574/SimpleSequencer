@@ -6,8 +6,11 @@ class PlayerGrid extends React.Component {
     super(props);
     this.state = {
       mouseDown: false,
+      dragX: null,
     };
     this.handleDrag = this.handleDrag.bind(this);
+    this.handleMouseDown = this.handleMouseDown.bind(this);
+    this.handleMouseUp = this.handleMouseUp.bind(this);
   }
 
   componentDidMount() {
@@ -30,30 +33,55 @@ class PlayerGrid extends React.Component {
   }
 
   moveNote(noteId, x, y=0) {
-    const { placeNote, setSelection, setNotes, selected, notes } = this.props;
-    const [ channel, oldTick, oldNote ] = selected[noteId];
-    const [ coord, note ] = [ oldTick + x, oldNote + y ];
-    console.log(coord, oldTick);
+    const { placeNote, selected, notes } = this.props;
+    const [ channel, oldTick, oldNote, originalTick, originalNote ] = selected[noteId];
+    const [ coord, note ] = [ originalTick + x, originalNote + y ];
     // if (!notes[channel][tick]) notes[channel][tick] = {};
     // notes[channel][tick][note] = notes[channel][oldTick][oldNote];
     const tick = placeNote(note, null, coord, ...notes[channel][oldTick][oldNote]);
     if (tick !== oldTick) {
       delete notes[channel][oldTick][oldNote];
       if (Object.keys(notes[channel][oldTick]).length === 0) delete notes[channel][oldTick];
-      selected[`${channel}-${tick}-${note}`] = [channel, tick, note];
+      selected[`${channel}-${tick}-${note}`] = [channel, tick, note, originalTick, originalNote];
       delete selected[noteId];
     }
   }
 
   handleDrag({ nativeEvent }) {
-    const { mouseDown } = this.state;
+    const { mouseDown, dragX } = this.state;
     const { selected } = this.props;
     if (mouseDown) {
-      console.log(nativeEvent.movementX);
       for (let noteId in selected) {
-        this.moveNote(noteId, nativeEvent.movementX);
+        let x = 0;
+        if (nativeEvent.target.classList[0] === 'gridRow') {
+          x = nativeEvent.offsetX;
+        } else if (nativeEvent.target.classList[0] === 'note') {
+          x = nativeEvent.target.offsetLeft
+        }
+        this.moveNote(noteId, x - dragX);
       }
     }
+  }
+
+  handleMouseDown({ nativeEvent }) {
+    this.setState({ mouseDown: true });
+    let x;
+    if (nativeEvent.target.classList[0] === 'gridRow') {
+      x = nativeEvent.offsetX;
+    } else if (nativeEvent.target.classList[0] === 'note') {
+      x = nativeEvent.target.offsetLeft
+    }
+    this.setState({ dragX: x });
+  }
+
+  handleMouseUp({ nativeEvent }) {
+    const { selected } = this.props;
+    this.setState({ mouseDown: false });
+    for (let noteId in selected) {
+      const [ channel, tick, note ] = selected[noteId];
+      selected[`${channel}-${tick}-${note}`] = [channel, tick, note, tick, note];
+    }
+    this.setState({ dragX: null });
   }
 
   render() {
@@ -63,8 +91,8 @@ class PlayerGrid extends React.Component {
     return (
       <div
         className='playerGrid'
-        onMouseDown={ () => this.setState({ mouseDown: true }) }
-        onMouseUp={ () => this.setState({ mouseDown: false }) }
+        onMouseDown={this.handleMouseDown}
+        onMouseUp={this.handleMouseUp}
         onMouseMove={this.handleDrag}
       >
         {keys.map(([ keyname, note ], i) => (
